@@ -19,7 +19,7 @@ def train_decision_tree(file_path):
     # Predict the loan status for the test data
     y_pred = clf.predict(X_test)
 
-    print("DEcision Tree Accuracy:", metrics.accuracy_score(y_test, y_pred))
+    print("Decision Tree Accuracy:", metrics.accuracy_score(y_test, y_pred))
 
     fig = plt.figure(figsize=(15,10))
     _ = tree.plot_tree(clf, 
@@ -31,4 +31,4 @@ def train_decision_tree(file_path):
     sns.heatmap(corr, annot=True, cmap='coolwarm')
     plt.show()
 
-train_decision_tree(r'C:\Users\delig\Documents\Python Scripts\machine_learning_course\Loans.csv')
+train_decision_tree(r'./Loans.csv')
