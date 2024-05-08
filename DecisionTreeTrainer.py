@@ -6,15 +6,16 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 
 # Prep Loan.csv
-df = pd.read_csv('C:\\Users\\seanb\\OneDrive\\Documents\\GitHub\\Loan_elegibility_Confirmation_GroupE\\Loans updated.csv')
+df = pd.read_csv('C:\\Users\\seanb\\OneDrive\\Documents\\GitHub\\Loan_elegibility_Confirmation_GroupE\\Loans updated2.csv')
 
-irrelevant_features = ['Loan_ID']
-df.drop(columns=irrelevant_features, inplace=True)
+df.drop(columns=['Loan_ID'], inplace=True)
 
-ohe = pd.get_dummies(df, columns=['Married', 'Gender', 'Education', 'Self_Employed', 'Property_Area'])
+ohe = pd.get_dummies(df, columns=['Dependents', 'ApplicantIncome', 'CoapplicantIncome', 'LoanAmount', 'Loan_Amount_Term',
+                                  'Credit_History', 'Married', 'Loan_Status', 'Education',
+                                  'Self_Employed', 'Gender', 'Property_Area'])
 
-X = ohe.drop('Loan_Status', axis=1)
-y = ohe['Loan_Status']
+X = df.drop('Loan_Status', axis=1)
+y = df['Loan_Status']
 
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
