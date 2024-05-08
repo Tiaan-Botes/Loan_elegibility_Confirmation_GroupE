@@ -1,8 +1,9 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import accuracy_score
 import plotly.express as px
+import matplotlib.pyplot as plt
 
 # Prep Loan.csv
 df = pd.read_csv('C:\\Users\\seanb\\OneDrive\\Documents\\GitHub\\Loan_elegibility_Confirmation_GroupE\\Loans updated.csv')
