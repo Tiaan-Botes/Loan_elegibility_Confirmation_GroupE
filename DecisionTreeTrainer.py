@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 import plotly.express as px
 
 # Prep Loan.csv
-df = pd.read_csv('./data/Loan.csv')
+df = pd.read_csv('C:\Users\Zegert\Documents\GitHub\Loan_elegibility_Confirmation_GroupE\Loans.csv')
 
 irrelevant_features = ['Loan_ID']
 df.drop(columns=irrelevant_features, inplace=True)
@@ -56,7 +56,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
 
-def train_decision_tree(file_path):
+def train_decision_tree(C:\Users\Zegert\Documents\GitHub\Loan_elegibility_Confirmation_GroupE\Loans.csv):
     df = pd.read_csv(file_path)
     X = df.drop('Loan_Status', axis=1)
     y = df['Loan_Status']
@@ -81,5 +81,5 @@ def train_decision_tree(file_path):
     sns.heatmap(corr, annot=True, cmap='coolwarm')
     plt.show()
 
-train_decision_tree(r'C:\Users\delig\Documents\Python Scripts\machine_learning_course\Loans.csv')
+train_decision_tree(r'C:\Users\Zegert\Documents\GitHub\Loan_elegibility_Confirmation_GroupE\Loans.csv')
 '''
