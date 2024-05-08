@@ -6,7 +6,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 
 # Prep Loan.csv
-df = pd.read_csv('C:\\Users\\seanb\\OneDrive\\Documents\\GitHub\\Loan_elegibility_Confirmation_GroupE\\Loans updated2.csv')
+df = pd.read_csv('Loans updated2.csv')
 
 df.drop(columns=['Loan_ID'], inplace=True)
 
