@@ -1,4 +1,4 @@
-import dash
+erimport dash
 import numpy as np
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -25,6 +25,7 @@ df['Dependents'] = df['Dependents'].round(decimals=2)
 # Define DASH app
 app = dash.Dash(__name__)
 app.title = "Decision Tree Classifier - Loan Eligibility"
+server = app.server
 
 # Define layout
 app.layout = html.Div([
