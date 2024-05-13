@@ -1,4 +1,4 @@
-erimport dash
+import dash
 import numpy as np
 from dash import dcc, html
 from dash.dependencies import Input, Output
