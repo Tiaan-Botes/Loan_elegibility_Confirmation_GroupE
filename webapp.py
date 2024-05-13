@@ -45,7 +45,7 @@ app.layout = html.Div([
     
     html.Label("Loan Amount"),
     dcc.Input(id="loan-amount-input", type="number", value=0),
-
+    html.Br(),
     html.Label("Loan Amount Term"),
     dcc.Input(id="loan-amount-term-input", type="number", value=0),
 
@@ -57,11 +57,11 @@ app.layout = html.Div([
 
     html.Label("Education"),
     dcc.Input(id="education-input", type="text", value=""),
-    
+    html.Br(),
     html.Label("Self Employed"),
     dcc.Input(id="self-employed-input", type="text", value=""),
 
-    html.Label("Gender"),
+    html.Label("\n Gender"),
     dcc.Input(id="gender-input", type="text", value=""),
 
     html.Label("Property Area"),
@@ -114,6 +114,7 @@ app.layout = html.Div([
 ])
 
 # Define callbacks
+
 @app.callback(
     Output('boxplot-applicant-income', 'figure'),
     Output('distplot-applicant-income', 'figure'),
@@ -196,6 +197,9 @@ def update_plots(clickData1, clickData2, clickData3, clickData4, clickData5, cli
     
     return fig_boxplot_applicant_income, fig_distplot_applicant_income, fig_boxplot_coapplicant_income, fig_distplot_coapplicant_income, fig_boxplot_loan_amount, fig_distplot_loan_amount, fig_tree_plot
 
+
+############
+
 @app.callback(
     Output('prediction-output', 'children'),
     Input('submit-button', 'n_clicks'),
@@ -213,7 +217,7 @@ def update_plots(clickData1, clickData2, clickData3, clickData4, clickData5, cli
 )
 def update_prediction(n_clicks, dependents, applicant_income, coapplicant_income, loan_amount, loan_amount_term, credit_history, married, education, self_employed, gender, property_area):
     if n_clicks > 0:
-        client_details = {
+        client_details_input = {
             'Dependents': dependents,
             'ApplicantIncome': applicant_income,
             'CoapplicantIncome': coapplicant_income,
@@ -226,8 +230,12 @@ def update_prediction(n_clicks, dependents, applicant_income, coapplicant_income
             'Gender': gender,
             'Property_Area': property_area
         }
-        prediction = classify_new_client(final_model_dt, client_details)
-        return f"Predicted Loan Status: {prediction}"
+        prediction = classify_new_client(client_details_input)
+        if prediction == 0:
+            return f"Predicted Loan Status: Sorry Your Application is likely to be denied :"
+        else:
+            return f"Predicted Loan Status: Congradulations Your Application is likely to be aproved!"
+
 
 
 if __name__ == '__main__':
