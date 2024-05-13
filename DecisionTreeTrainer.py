@@ -36,7 +36,7 @@ for d in depth_hyperparams:
 tune_data = pd.DataFrame({'Training': training_acc, 'Validation': validation_acc}, index=depth_hyperparams)
 fig = px.line(data_frame=tune_data, x=depth_hyperparams, y=['Training', 'Validation'], title="Training & Validation Curves (Decision Tree Model)")
 fig.update_layout(xaxis_title="Maximum Depth", yaxis_title="Accuracy Score")
-fig.show()
+#fig.show()
 
 # Evaluate Decision Tree
 final_model_dt = DecisionTreeClassifier(max_depth=6, random_state=42)
@@ -49,4 +49,14 @@ plt.figure(figsize=(18, 12))
 plot_tree(decision_tree=final_model_dt, filled=True, max_depth=2, feature_names=feature_names, class_names=True)
 plt.axis('off')
 plt.savefig('decisiontree.png')
-plt.show()
+
+def classify_new_client(model, client_details):
+    # Prepare data 
+    client_df = pd.DataFrame(client_details, index=[0])
+    # Make prediction
+    prediction = model.predict(client_df)
+    return prediction[0]
+
+# Return the final model
+final_model_dt = DecisionTreeClassifier(max_depth=6, random_state=42)
+final_model_dt.fit(X_train, y_train)
