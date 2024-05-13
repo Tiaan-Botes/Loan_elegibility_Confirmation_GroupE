@@ -29,6 +29,11 @@ app.title = "Decision Tree Classifier - Loan Eligibility"
 # Define layout
 app.layout = html.Div([
     html.H1("Decision Tree Classifier - Loan Eligibility Dashboard"),
+
+    html.Div([
+        html.H3("Decision Tree Plot"),
+        html.Img(src='https://raw.githubusercontent.com/Tiaan-Botes/Loan_elegibility_Confirmation_GroupE/master/decisiontree.png', style={'width':'100%'})
+    ]),
     
     html.Div([
         html.H3("Box Plot of Applicant Income"),
@@ -62,7 +67,7 @@ app.layout = html.Div([
     
     html.Div([
         html.H3("Decision Tree Plot"),
-        html.Img(src='decisiontree.png', style={'width':'100%'})
+        dcc.Graph(id='tree-plot')
     ]),
 ])
 
@@ -74,12 +79,14 @@ app.layout = html.Div([
     Output('distplot-coapplicant-income', 'figure'),
     Output('boxplot-loan-amount', 'figure'),
     Output('distplot-loan-amount', 'figure'),
+    Output('tree-plot', 'figure'),
     Input('boxplot-applicant-income', 'clickData'),
     Input('distplot-applicant-income', 'clickData'),
     Input('boxplot-coapplicant-income', 'clickData'),
     Input('distplot-coapplicant-income', 'clickData'),
     Input('boxplot-loan-amount', 'clickData'),
     Input('distplot-loan-amount', 'clickData'),
+    Input('tree-plot', 'clickData')
 )
 def update_plots(clickData1, clickData2, clickData3, clickData4, clickData5, clickData6, clickData7):
     # Box Plot of Applicant Income
@@ -99,8 +106,53 @@ def update_plots(clickData1, clickData2, clickData3, clickData4, clickData5, cli
     
     # Distribution Plot of Loan Amount
     fig_distplot_loan_amount = px.histogram(df, x='LoanAmount', title='Distribution Plot of Loan Amount')
+    
+    # Train decision tree model
+    X = df.drop('Loan_Status', axis=1)
+    y = df['Loan_Status']
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+    final_model_dt = DecisionTreeClassifier(max_depth=6, random_state=42)
+    final_model_dt.fit(X_train, y_train)
 
-    return fig_boxplot_applicant_income, fig_distplot_applicant_income, fig_boxplot_coapplicant_income, fig_distplot_coapplicant_income, fig_boxplot_loan_amount, fig_distplot_loan_amount
+
+# Generate decision tree plot
+    def plot_decision_tree(model):
+    # Initialize figure
+        fig = go.Figure()
+
+    # Get decision tree attributes
+        n_nodes = model.tree_.node_count
+        children_left = model.tree_.children_left
+        children_right = model.tree_.children_right
+        feature = model.tree_.feature
+        threshold = model.tree_.threshold
+
+        # Add decision tree nodes
+        for node_idx in range(n_nodes):
+            if children_left[node_idx] != children_right[node_idx]:  # if not a leaf node
+                feature_name = X.columns[feature[node_idx]]
+                fig.add_trace(go.Scatter(x=[feature_name], y=[threshold[node_idx]],
+                                     mode='markers+lines',
+                                     marker=dict(size=20),
+                                     line=dict(width=2, color='blue'),
+                                     name=f'Node {node_idx}',
+                                     text=f'Feature: {feature_name}<br>Threshold: {threshold[node_idx]:.2f}<br>Samples: {model.tree_.n_node_samples[node_idx]}',
+                                     hoverinfo='text'
+                                    ))
+
+        # Update layout
+        fig.update_layout(title='Decision Tree Plot',
+                      xaxis=dict(title='Feature'),
+                      yaxis=dict(title='Threshold'),
+                      hovermode='closest')
+
+        return fig
+
+
+    # Decision Tree Plot
+    fig_tree_plot = plot_decision_tree(final_model_dt)
+    
+    return fig_boxplot_applicant_income, fig_distplot_applicant_income, fig_boxplot_coapplicant_income, fig_distplot_coapplicant_income, fig_boxplot_loan_amount, fig_distplot_loan_amount, fig_tree_plot
 
 if __name__ == '__main__':
     app.run_server(debug=True)

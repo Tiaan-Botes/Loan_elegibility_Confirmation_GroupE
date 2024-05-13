@@ -1,0 +1,46 @@
+/* styles.css */
+
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f000;
+}
+
+/* Header */
+.header {
+    background-color: #33333300;
+    color: #ffffff9b;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Main Content */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #5d3aa2b9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.graph-container {
+    margin-bottom: 20px;
+}
+
+.graph-container .dcc-graph {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.graph-container .dcc-graph:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
