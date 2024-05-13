@@ -48,4 +48,5 @@ feature_names = X.columns
 plt.figure(figsize=(18, 12))
 plot_tree(decision_tree=final_model_dt, filled=True, max_depth=2, feature_names=feature_names, class_names=True)
 plt.axis('off')
+plt.savefig('decisiontree.png')
 plt.show()
