@@ -50,11 +50,11 @@ plot_tree(decision_tree=final_model_dt, filled=True, max_depth=2, feature_names=
 plt.axis('off')
 plt.savefig('decisiontree.png')
 
-def classify_new_client(model, client_details):
+def classify_new_client(client_details):
     # Prepare data 
     client_df = pd.DataFrame(client_details, index=[0])
     # Make prediction
-    prediction = model.predict(client_df)
+    prediction = final_model_dt.predict(client_df)
     return prediction[0]
 
 # Return the final model
